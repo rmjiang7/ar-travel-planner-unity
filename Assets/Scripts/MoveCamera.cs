@@ -21,11 +21,27 @@ public class MoveCamera : MonoBehaviour
 	private bool isZooming;		// Is the camera zooming?
 
 	private GameObject itinerary;
+
+#if UNITY_ANDROID
+	private float minSwipeDistY = 10.0f;
+	private float minSwipeDistX;
+	private Vector2 startPos;
+	private ScreenOrientation currentOrientation;
+#endif
+
+	
+	void Start()
+	{
+		itinerary = GameObject.Find ("Itinerary");
+#if UNITY_ANDROID
+		minSwipeDistY = (float) (Screen.height / 10.0);
+		currentOrientation = Screen.orientation;
+#endif
+	}
 	
 	//
 	// UPDATE
 	//
-
 	void Update () 
 	{
 		// Get the left mouse button
@@ -34,8 +50,7 @@ public class MoveCamera : MonoBehaviour
 			// Get mouse origin
 			mouseOrigin = Input.mousePosition;
 			isRotating = true;
-			itinerary.SendMessage("Add","This is a sent message.");
-
+			itinerary.SendMessage("Add","This is a touch event.");
 		}
 		
 		// Get the right mouse button
@@ -53,6 +68,38 @@ public class MoveCamera : MonoBehaviour
 			mouseOrigin = Input.mousePosition;
 			isZooming = true;
 		}
+
+#if UNITY_ANDROID
+
+		if (Screen.orientation != currentOrientation)
+		{
+			currentOrientation = Screen.orientation;
+			minSwipeDistY = (float) (Screen.height / 10.0);
+		}
+
+		if (Input.touchCount != 0) {
+
+			Touch touch = Input.GetTouch(0);
+
+			switch(touch.phase)
+			{
+			case TouchPhase.Began:
+				startPos = touch.position;
+				break;
+			case TouchPhase.Ended:
+				float swipeDistVertical = 
+					(new Vector3(0, touch.position.y,0) -
+					 new Vector3(0, startPos.y, 0)).magnitude;
+				if(swipeDistVertical > minSwipeDistY)
+				{
+					itinerary.SendMessage("Add","This is a touch event.");
+				}
+				break;
+			default:
+				break;
+			}
+		}
+#endif
 		
 		// Disable movements on button release
 		if (!Input.GetMouseButton(0)) isRotating=false;
@@ -85,11 +132,6 @@ public class MoveCamera : MonoBehaviour
 			Vector3 move = pos.y * zoomSpeed * transform.forward; 
 			transform.Translate(move, Space.World);
 		}
-	}
-
-	void Start()
-	{
-		itinerary = GameObject.Find ("Itinerary");
 	}
 
 }

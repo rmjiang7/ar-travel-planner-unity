@@ -5,39 +5,39 @@ using System.Collections.Generic;
 public class ItineraryUpdate : MonoBehaviour {
 
 	// array of plans
-	private IList<string> plans;
-	private bool isDirty = false;
+	private IList<GameObject> itinerary;
 
+	// Base Itinerary Object to duplicate
+	private GameObject baseItineraryEntry;
+
+	public float maxTextBoxHeight = 1.0f;
+	private int entryCount = 0;
+	
 	// Use this for initialization
 	void Start () {
-		plans = new List<string> ();
-		Redraw ();
+		itinerary = new List<GameObject> ();
+		baseItineraryEntry = GameObject.Find ("ItineraryEntry");
 	}
 
 	// remove an entry from the list
 	void Remove (int idx){
-		plans.RemoveAt (idx);
-		isDirty = true;
+		Destroy(itinerary[idx]);
+		itinerary.RemoveAt (idx);
+		entryCount--;
 	}
 
 	void Add (string entry) {
-		plans.Add (entry);
-		isDirty = true;
-	}
-
-	void Redraw() {
-		string outstring = "";
-		for (int i = 0; i < plans.Count; i++) {
-			outstring += (i+1).ToString() + ": " + plans[i] + "\n";
-		}
-		GetComponent<TextMesh> ().text = outstring;
+		GameObject itineraryEntry = 
+			(GameObject) Instantiate (baseItineraryEntry, 
+			             transform.position + new Vector3(0,-maxTextBoxHeight*entryCount,0),
+			             Quaternion.identity);
+		itineraryEntry.SendMessage ("UpdateText", entry);
+		itinerary.Add (itineraryEntry);
+		Debug.Log ("Placed another entry");
+		entryCount++;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (isDirty) {
-			Redraw ();
-			isDirty = false;
-		}
 	}
 }

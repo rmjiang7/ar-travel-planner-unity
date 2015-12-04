@@ -14,9 +14,10 @@ public class ItineraryEntryUpdate : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay (
 				new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0));
 			RaycastHit hit;
-			Debug.Log (GetComponent<BoxCollider> ().bounds);
-			if (Physics.Raycast (ray, out hit)) {
-				Debug.Log ("Changed");
+
+			BoxCollider bc = (BoxCollider) gameObject.GetComponent<BoxCollider>();
+			if (bc.Raycast (ray, out hit, Mathf.Infinity)) {
+				Debug.Log ("Changed with mouse button 2");
 				UpdateText ("Changed!");
 			}
 		}
@@ -40,9 +41,16 @@ public class ItineraryEntryUpdate : MonoBehaviour {
 
 	void UpdateText(string entry) {
 		GetComponent<TextMesh> ().text = entry;
+
+		// destroy old box collider
+		Destroy (GetComponent<BoxCollider> ());
+
+		// create a new box collider with the appropriate size
 		BoxCollider bc = gameObject.AddComponent<BoxCollider> ();
 		bc.isTrigger = true;
 		bc.size = GetComponent<TextMesh> ().GetComponent<Renderer> ().bounds.size;
+		bc.center = transform.parent.position + transform.position;
+		Debug.Log (bc.size);
 	}
 	
 	void SetRelativePosition(float x, float y, float z) {

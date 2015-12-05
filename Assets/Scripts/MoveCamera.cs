@@ -32,7 +32,7 @@ public class MoveCamera : MonoBehaviour
 	
 	void Start()
 	{
-		itinerary = GameObject.Find ("Itinerary");
+		itinerary = GameObject.Find ("ItineraryPlane");
 #if UNITY_ANDROID
 		minSwipeDistY = (float) (Screen.height / 10.0);
 		currentOrientation = Screen.orientation;
@@ -47,6 +47,7 @@ public class MoveCamera : MonoBehaviour
 		// Get the left mouse button
 		if(Input.GetMouseButtonDown(0))
 		{
+			Debug.Log("Clicked");
 			// Get mouse origin
 			mouseOrigin = Input.mousePosition;
 			isRotating = true;
@@ -59,6 +60,15 @@ public class MoveCamera : MonoBehaviour
 			// Get mouse origin
 			mouseOrigin = Input.mousePosition;
 			isPanning = true;
+
+			Ray ray = Camera.main.ScreenPointToRay (
+				new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0));
+			RaycastHit hit;
+			
+			if(Physics.Raycast (ray, out hit, Mathf.Infinity))
+			{
+				hit.collider.gameObject.SendMessage("OnRayHit");
+			}
 		}
 		
 		// Get the middle mouse button
@@ -84,7 +94,7 @@ public class MoveCamera : MonoBehaviour
 			switch(touch.phase)
 			{
 			case TouchPhase.Began:
-				startPos = touch.position;
+				itinerary.SendMessage("Add","This is a touch event.");
 				break;
 			case TouchPhase.Ended:
 				float swipeDistVertical = 

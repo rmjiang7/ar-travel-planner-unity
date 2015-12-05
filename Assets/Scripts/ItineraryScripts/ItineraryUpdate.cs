@@ -27,13 +27,18 @@ public class ItineraryUpdate : MonoBehaviour {
 	}
 
 	void Add (string entry) {
+
 		GameObject itineraryEntry = 
 			(GameObject) Instantiate (baseItineraryEntry, 
-			             transform.position + new Vector3(0,-maxTextBoxHeight*entryCount,0),
+			             baseItineraryEntry.transform.position + new Vector3(0,-maxTextBoxHeight*entryCount,0),
 			             Quaternion.identity);
+
+		itineraryEntry.transform.parent = transform;
+		itineraryEntry.transform.localScale = baseItineraryEntry.transform.localScale;
+
 		itineraryEntry.SendMessage ("UpdateText", entry);
+		itineraryEntry.SendMessage ("UpdateDate", "11/16");
 		itinerary.Add (itineraryEntry);
-		Debug.Log ("Placed another entry");
 		entryCount++;
 	}
 

@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ItineraryEntryColumn : MonoBehaviour {
+public class SymbolItineraryEntryColumn : ItineraryEntryColumn {
 
 	// Use this for initialization
 	void Start () {
-	
 	}
 	
 	// Update is called once per frame
@@ -13,6 +12,6 @@ public class ItineraryEntryColumn : MonoBehaviour {
 	}
 	
 	// Update the text on the itinerary entry
-	public virtual void ForceUpdateDisplay(string entry) {
+	public override void ForceUpdateDisplay(string entry) {
 	}
 }

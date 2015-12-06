@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TextMeshRayHitBoxCollider : MonoBehaviour {
 
-	void OnRayHit() {
+	public virtual void OnRayHit() {
 	}
 
 	void UpdateBoxCollider() {

@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof (TextItineraryEntryColumn))]
 public class DateTextMeshRayHitBoxCollider : TextMeshRayHitBoxCollider {
-	void OnRayHit() {
+
+	public override void OnRayHit() {
 		GetComponent<ItineraryEntryColumn> ().SendMessage ("UpdateText", "11/17");
 	}
+
 }

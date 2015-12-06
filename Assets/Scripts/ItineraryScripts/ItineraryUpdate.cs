@@ -36,7 +36,7 @@ public class ItineraryUpdate : MonoBehaviour {
 		itineraryEntry.transform.parent = transform;
 		itineraryEntry.transform.localScale = baseItineraryEntry.transform.localScale;
 
-		itineraryEntry.SendMessage ("UpdateText", entry);
+		itineraryEntry.SendMessage ("UpdateName", entry);
 		itineraryEntry.SendMessage ("UpdateDate", "11/16");
 		itinerary.Add (itineraryEntry);
 		entryCount++;

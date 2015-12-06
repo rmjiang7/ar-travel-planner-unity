@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SelectableLandmark : MonoBehaviour {
 
-	private bool isSelected = false;
+	protected bool isSelected = false;
 
 	// Use this for initialization
 	void Start () {

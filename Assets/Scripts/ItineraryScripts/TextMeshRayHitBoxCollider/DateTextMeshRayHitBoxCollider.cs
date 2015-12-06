@@ -5,7 +5,7 @@ using System.Collections;
 public class DateTextMeshRayHitBoxCollider : TextMeshRayHitBoxCollider {
 
 	public override void OnRayHit() {
-		GetComponent<ItineraryEntryColumn> ().SendMessage ("UpdateText", "11/17");
+		GetComponent<ItineraryEntryColumn> ().SendMessage ("ForceUpdateDisplay", "11/17");
 	}
 
 }

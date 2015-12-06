@@ -5,7 +5,7 @@ using System.Collections;
 public class NameTextMeshRayHitBoxCollider : TextMeshRayHitBoxCollider {
 
 	public override void OnRayHit() {
-		GetComponent<ItineraryEntryColumn> ().SendMessage ("UpdateText", "Changed!");
+		GetComponent<ItineraryEntryColumn> ().SendMessage ("ForceUpdateDisplay", "Changed!");
 	}
 
 }

@@ -38,4 +38,8 @@ public class SelectableLandmark : MonoBehaviour {
 			OnDeselect();
 		}
 	}
+
+	public bool selected() {
+		return this.isSelected;
+	}
 }

@@ -31,7 +31,6 @@ public class ItineraryEntryUpdate : MonoBehaviour {
 		if (transform.Find ("ItineraryEntryColumnName") != null) {
 			GameObject childName = transform.Find ("ItineraryEntryColumnName").gameObject;
 			childName.SendMessage ("UpdateText", entry);
-			childName.GetComponent<TextMeshRayHitBoxCollider>().SendMessage("UpdateBoxCollider");
 		}
 	}
 
@@ -39,7 +38,6 @@ public class ItineraryEntryUpdate : MonoBehaviour {
 		if (transform.Find ("ItineraryEntryColumnDate") != null) {
 			GameObject childDate = transform.Find ("ItineraryEntryColumnDate").gameObject;
 			childDate.SendMessage ("UpdateText", entry);
-			childDate.GetComponent<TextMeshRayHitBoxCollider>().SendMessage("UpdateBoxCollider");
 		}
 	}
 

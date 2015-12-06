@@ -47,20 +47,11 @@ public class MoveCamera : MonoBehaviour
 		// Get the left mouse button
 		if(Input.GetMouseButtonDown(0))
 		{
-			Debug.Log("Clicked");
+			/*
 			// Get mouse origin
 			mouseOrigin = Input.mousePosition;
 			isRotating = true;
 			itinerary.SendMessage("Add","This is a touch event.");
-		}
-		
-		// Get the right mouse button
-		if(Input.GetMouseButtonDown(1))
-		{
-			// Get mouse origin
-			mouseOrigin = Input.mousePosition;
-			isPanning = true;
-
 			Ray ray = Camera.main.ScreenPointToRay (
 				new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0));
 			RaycastHit hit;
@@ -69,6 +60,15 @@ public class MoveCamera : MonoBehaviour
 			{
 				hit.collider.gameObject.SendMessage("OnRayHit");
 			}
+			*/
+		}
+		
+		// Get the right mouse button
+		if(Input.GetMouseButtonDown(1))
+		{
+			// Get mouse origin
+			mouseOrigin = Input.mousePosition;
+			isPanning = true;
 		}
 		
 		// Get the middle mouse button
@@ -88,13 +88,20 @@ public class MoveCamera : MonoBehaviour
 		}
 
 		if (Input.touchCount != 0) {
-
 			Touch touch = Input.GetTouch(0);
-
 			switch(touch.phase)
 			{
 			case TouchPhase.Began:
 				itinerary.SendMessage("Add","This is a touch event.");
+
+				Ray ray = Camera.main.ScreenPointToRay (
+					new Vector3 (touch.position.x, touch.position.y, 0));
+				RaycastHit hit;
+				
+				if(Physics.Raycast (ray, out hit, Mathf.Infinity))
+				{
+					hit.collider.gameObject.SendMessage("OnRayHit");
+				}
 				break;
 			case TouchPhase.Ended:
 				float swipeDistVertical = 
@@ -102,7 +109,7 @@ public class MoveCamera : MonoBehaviour
 					 new Vector3(0, startPos.y, 0)).magnitude;
 				if(swipeDistVertical > minSwipeDistY)
 				{
-					itinerary.SendMessage("Add","This is a touch event.");
+					//itinerary.SendMessage("Add","This is a touch event.");
 				}
 				break;
 			default:

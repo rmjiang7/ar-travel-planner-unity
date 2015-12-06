@@ -30,7 +30,7 @@ public class ItineraryUpdate : MonoBehaviour {
 
 		GameObject itineraryEntry = 
 			(GameObject) Instantiate (baseItineraryEntry, 
-			             baseItineraryEntry.transform.position + new Vector3(0,-maxTextBoxHeight*entryCount,0),
+			             baseItineraryEntry.transform.position + new Vector3(0,-maxTextBoxHeight*++entryCount,0),
 			             Quaternion.identity);
 
 		itineraryEntry.transform.parent = transform;

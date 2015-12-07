@@ -5,12 +5,6 @@ public class SelectableCity : SelectableLandmark {
 	
 	private float time = 0f;
 
-	public Mesh deselectedMesh;
-	public Material deselectedMeshMaterial;
-
-	public Mesh selectedMesh;
-	public Material selectedMeshMaterial;
-
 	public float pulseDuration = 500;
 	public float pulseScaleMultiplier = 1.5f;
 
@@ -19,8 +13,6 @@ public class SelectableCity : SelectableLandmark {
 
 	// Use this for initialization
 	protected virtual void Start () {
-		GetComponent<MeshFilter> ().mesh = deselectedMesh;
-		GetComponent<MeshRenderer> ().materials = new Material[]{deselectedMeshMaterial};
 		transform.localScale = new Vector3(0.1f,0.1f,0.1f);
 		time = Time.time * 1000;
 	}
@@ -41,18 +33,14 @@ public class SelectableCity : SelectableLandmark {
 	}
 
 	public override void OnSelect() {
-		GetComponent<MeshFilter> ().mesh = selectedMesh;
-		GetComponent<MeshRenderer> ().materials = new Material[]{selectedMeshMaterial};
-		transform.localScale = new Vector3(0.5f,0.5f,0.5f);
+		base.OnSelect ();
 		initialScale = transform.localScale;
 		finalScale = transform.localScale * pulseScaleMultiplier;
 		time = Time.time * 1000;
 	}
 
 	public override void OnDeselect() {
-		GetComponent<MeshFilter> ().mesh = deselectedMesh;
-		GetComponent<MeshRenderer> ().materials = new Material[]{deselectedMeshMaterial};
-		transform.localScale = new Vector3(0.1f,0.1f,0.1f);
+		base.OnDeselect ();
 	}
 
 

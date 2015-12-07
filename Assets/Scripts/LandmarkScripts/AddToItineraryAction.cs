@@ -20,6 +20,7 @@ public class AddToItineraryAction : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		/*
 		if (parentLandmark.selected()) {
 			if (Input.touchCount != 0) {
 				Touch touch = Input.GetTouch (0);
@@ -38,6 +39,40 @@ public class AddToItineraryAction : MonoBehaviour {
 				default:
 					break;
 				}
+			}
+		}
+		*/
+
+		if (parentLandmark.selected()) {
+			if (Input.GetMouseButtonDown(0)) {
+				itinerary.SendMessage ("Add", message);
+				Destroy (GetComponent<AddToItineraryAction>());
+
+				MarkerPlacement gc = 
+					(MarkerPlacement) gameObject.AddComponent<MarkerPlacement>();
+				gc.X = transform.position.x;
+				gc.Z = transform.position.z;
+
+				GameObject primitive = 
+					GameObject.CreatePrimitive(PrimitiveType.Sphere);
+				primitive.active = false;
+				Material diffuse = 
+					primitive.GetComponent<MeshRenderer>().sharedMaterial;
+				gc.selectedMesh = primitive.GetComponent<MeshFilter>().mesh;
+				gc.selectedMeshMaterial = diffuse;
+
+				SelectableLandmark sm = GetComponent<SelectableLandmark>();
+				sm.selectedMesh = primitive.GetComponent<MeshFilter>().mesh;
+				sm.selectedMeshMaterial = diffuse;
+				sm.deselectedMesh = primitive.GetComponent<MeshFilter>().mesh;
+				sm.deselectedMeshMaterial = diffuse;
+
+				DestroyImmediate(primitive);
+
+				Vacuum vac = (Vacuum) gameObject.AddComponent<Vacuum>();
+				vac.X = transform.position.x;
+				vac.Z = transform.position.z;
+
 			}
 		}
 	}

@@ -4,9 +4,19 @@ using System.Collections;
 public class SelectableLandmark : MonoBehaviour {
 
 	protected bool isSelected = false;
+	
+	public Mesh deselectedMesh;
+	public Material deselectedMeshMaterial;
+	
+	public Mesh selectedMesh;
+	public Material selectedMeshMaterial;
+
+	public float selectedScale = 0.5f;
+	public float deselectedScale = 0.1f;
 
 	// Use this for initialization
 	void Start () {
+		transform.localScale = new Vector3(deselectedScale,deselectedScale,deselectedScale);
 	}
 	
 	// Update is called once per frame
@@ -14,11 +24,15 @@ public class SelectableLandmark : MonoBehaviour {
 	}
 
 	public virtual void OnSelect() {
-		transform.localScale = new Vector3(0.5f,0.5f,0.5f);
+		GetComponent<MeshFilter> ().mesh = deselectedMesh;
+		GetComponent<MeshRenderer> ().materials = new Material[]{deselectedMeshMaterial};
+		transform.localScale = new Vector3(selectedScale,selectedScale,selectedScale);
 	}
 
 	public virtual void OnDeselect() {
-		transform.localScale = new Vector3(0.1f,0.1f,0.1f);
+		GetComponent<MeshFilter> ().mesh = selectedMesh;
+		GetComponent<MeshRenderer> ().materials = new Material[]{selectedMeshMaterial};
+		transform.localScale = new Vector3(deselectedScale,deselectedScale,deselectedScale);
 	}
 
 	void ToggleSelect() {
@@ -33,7 +47,6 @@ public class SelectableLandmark : MonoBehaviour {
 			gameObject.tag = "SelectedLandmark";
 			OnSelect();
 		} else {
-
 			isSelected = false;
 			gameObject.tag = "Untagged";
 			OnDeselect();

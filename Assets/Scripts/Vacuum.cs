@@ -29,27 +29,27 @@ public class Vacuum : MonoBehaviour
         float z_int = Z / (N - 1);
 
 		if (k < max) {
-			float x = X - (k * x_int);
-			float z = Z - (k * z_int);
-			float angle = Mathf.PI - (k * rot_int);
+			float x = (k * x_int);
+			float z = (k * z_int);
+			float angle = (k * rot_int);
 			float y = radius * Mathf.Sin (angle);
 
 			GameObject cyl = GameObject.CreatePrimitive (PrimitiveType.Cylinder);
 			cyl.transform.SetParent(parent.transform);
 			cyl.transform.position = new Vector3 (x, y, z);
 			cyl.GetComponent<Renderer>().material.color = Color.black;
-			float cyl_width = (float)(N - k) / 0.25f;
+			float cyl_width = k / 0.25f;
                 
 			cyl.transform.localScale = new Vector3 (cyl_width, .1f, cyl_width);
 
 			float xRot = k * rot_int;
 			float yRot = k * rot_int;
 			float zRot = k * rot_int * (90 / Mathf.PI) * 2;
-			cyl.transform.Rotate (0, 0, zRot);
+			cyl.transform.Rotate (0, 0, -zRot);
 		}
 		k++;
 
-		if (k == max) {
+		if (k == max+10) {
 			Destroy (parent);
 			Destroy (this);
 		}

@@ -9,12 +9,12 @@ public class ArrowArcs : MonoBehaviour
     public float Z = 5;
 
     private int N = 101;
-    private int max = 0;
+
+    private int k = 0;
 
     // Use this for initialization
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -24,24 +24,16 @@ public class ArrowArcs : MonoBehaviour
 
         float rot_int = (Mathf.PI) / (N - 1);
         float x_int = X / (N - 1);
-
         float z_int = Z / (N - 1);
 
-        if (max <= N)
-        {
-            max++;
-        }
-
-        for (int k = 0; k < max; k++)
+        if (k < N)
         {
             cyl = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
 
             float angle = Mathf.PI - (k * rot_int);
-
             float x = k * x_int;
             float z = k * z_int;
             float y = radius * Mathf.Sin(angle);
-
             cyl.transform.position = new Vector3(x, y, z);
 
             if (k < N - 5)
@@ -51,7 +43,6 @@ public class ArrowArcs : MonoBehaviour
             else  //make last five iters into the arrowhead
             {
                 float cyl_width = (float)(N - k) / 10;
-                Debug.Log(cyl_width);
                 cyl.transform.localScale = new Vector3(cyl_width, .1f, cyl_width);
             }
 
@@ -60,7 +51,7 @@ public class ArrowArcs : MonoBehaviour
             float zRot = k * rot_int * (90 / Mathf.PI) * 2;
             cyl.transform.Rotate(0, 0, -zRot);
 
+            k++;
         }
     }
-
 }

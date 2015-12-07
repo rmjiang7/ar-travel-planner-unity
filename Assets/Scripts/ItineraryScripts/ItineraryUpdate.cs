@@ -6,6 +6,7 @@ public class ItineraryUpdate : MonoBehaviour {
 
 	// array of plans
 	private IList<GameObject> itinerary;
+	private Dictionary<string, int> entryLookupTable; 
 
 	// Base Itinerary Object to duplicate
 	private GameObject baseItineraryEntry;
@@ -16,17 +17,28 @@ public class ItineraryUpdate : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		itinerary = new List<GameObject> ();
+		entryLookupTable = new Dictionary<string, int> ();
 		baseItineraryEntry = GameObject.Find ("ItineraryEntry");
 	}
 
 	// remove an entry from the list
-	void Remove (int idx){
+	void Remove (string key){
+		Debug.Log ("Remove");
+		int idx = entryLookupTable [key];
 		Destroy(itinerary[idx]);
 		itinerary.RemoveAt (idx);
+		entryLookupTable.Remove (key);
 		entryCount--;
 	}
 
-	void Add (string entry) {
+	void Add (string[] entrykeypair) {
+		string entry = entrykeypair [0];
+		string key = entrykeypair [1];
+
+		if (entryLookupTable.ContainsKey (key)) {
+			Debug.Log ("Entry does not exist");
+			return;
+		}
 
 		GameObject itineraryEntry = 
 			(GameObject) Instantiate (baseItineraryEntry, 
@@ -39,7 +51,7 @@ public class ItineraryUpdate : MonoBehaviour {
 		itineraryEntry.SendMessage ("UpdateName", entry);
 		itineraryEntry.SendMessage ("UpdateDate", "11/16");
 		itinerary.Add (itineraryEntry);
-		entryCount++;
+		entryLookupTable.Add (key, entryCount - 1);
 	}
 
 	// Update is called once per frame

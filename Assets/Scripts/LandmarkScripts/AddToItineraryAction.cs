@@ -45,7 +45,7 @@ public class AddToItineraryAction : MonoBehaviour {
 
 		if (parentLandmark.selected()) {
 			if (Input.GetMouseButtonDown(0)) {
-				itinerary.SendMessage ("Add", message);
+				itinerary.SendMessage ("Add", new string[] {message,message});
 				Destroy (GetComponent<AddToItineraryAction>());
 
 				MarkerPlacement gc = 
@@ -73,6 +73,10 @@ public class AddToItineraryAction : MonoBehaviour {
 				vac.X = transform.position.x;
 				vac.Z = transform.position.z;
 
+			}
+
+			if (Input.GetMouseButtonDown (1)) {
+				itinerary.SendMessage ("Remove", message);
 			}
 		}
 	}

@@ -10,7 +10,7 @@ public class SelectableCity : SelectableLandmark {
 	public Material selectedMeshMaterial;
 
 	// Use this for initialization
-	void Start () {
+	protected virtual void Start () {
 		GetComponent<MeshFilter> ().mesh = deselectedMesh;
 		GetComponent<MeshRenderer> ().materials = new Material[]{deselectedMeshMaterial};
 		transform.localScale = new Vector3(0.1f,0.1f,0.1f);

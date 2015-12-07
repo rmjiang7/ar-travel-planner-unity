@@ -22,6 +22,7 @@ public class SelectableLandmark : MonoBehaviour {
 	}
 
 	void ToggleSelect() {
+		Debug.Log ("Has Toggled Selected");
 		if(!isSelected) {
 			GameObject go = 
 				GameObject.FindGameObjectWithTag("SelectedLandmark");

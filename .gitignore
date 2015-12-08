@@ -5,6 +5,7 @@
 /[Oo]bj/
 /[Bb]uild/
 /[Aa]ssets/AssetStoreTools*
+/[Aa]ssets/ZRNAssets*
 /[Aa]ssets/SceneTesting/
 /[Aa]ssets/SceneTesting.meta
 /[Aa]ssets/Vuforia/Scripts/Cardboard.meta

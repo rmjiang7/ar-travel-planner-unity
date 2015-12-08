@@ -5,7 +5,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class MoveCamera : MonoBehaviour 
+public class MoveCameraDefault : MonoBehaviour 
 {
 	//
 	// VARIABLES

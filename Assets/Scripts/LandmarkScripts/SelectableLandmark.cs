@@ -6,10 +6,10 @@ public class SelectableLandmark : MonoBehaviour {
 	protected bool isSelected = false;
 	
 	public Mesh deselectedMesh;
-	public Material deselectedMeshMaterial;
+	public Material[] deselectedMeshMaterials;
 	
 	public Mesh selectedMesh;
-	public Material selectedMeshMaterial;
+	public Material[] selectedMeshMaterials;
 
 	public float selectedScale = 0.5f;
 	public float deselectedScale = 0.1f;
@@ -25,13 +25,13 @@ public class SelectableLandmark : MonoBehaviour {
 
 	public virtual void OnSelect() {
 		GetComponent<MeshFilter> ().mesh = deselectedMesh;
-		GetComponent<MeshRenderer> ().materials = new Material[]{deselectedMeshMaterial};
+		GetComponent<MeshRenderer> ().materials = deselectedMeshMaterials;
 		transform.localScale = new Vector3(selectedScale,selectedScale,selectedScale);
 	}
 
 	public virtual void OnDeselect() {
 		GetComponent<MeshFilter> ().mesh = selectedMesh;
-		GetComponent<MeshRenderer> ().materials = new Material[]{selectedMeshMaterial};
+		GetComponent<MeshRenderer> ().materials = selectedMeshMaterials;
 		transform.localScale = new Vector3(deselectedScale,deselectedScale,deselectedScale);
 	}
 
@@ -56,4 +56,12 @@ public class SelectableLandmark : MonoBehaviour {
 	public bool selected() {
 		return this.isSelected;
 	}
+
+	public void ForceDisplayUpdate(){
+		if (isSelected) {
+			OnSelect ();
+		} else {
+			OnDeselect ();
+		}
+	}	
 }

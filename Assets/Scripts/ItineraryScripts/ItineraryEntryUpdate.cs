@@ -26,8 +26,16 @@ public class ItineraryEntryUpdate : MonoBehaviour {
 		}
 	}
 
-	void SetRelativePosition(float x, float y, float z) {
-		GetComponent<TextMesh> ().transform.localPosition = new Vector3(x, y, z);
+	void UpdateAdditional(string entry) {
+		if (transform.Find ("ItineraryEntryColumnAdditional") != null) {
+			GameObject childDate = transform.Find ("ItineraryEntryColumnAdditional").gameObject;
+			childDate.SendMessage ("ForceUpdateDisplay", entry);
+		}
+	}
+
+
+	public void SetRelativePosition(float x, float y, float z) {
+		transform.localPosition = new Vector3(x, y, z);
 	}
 
 }

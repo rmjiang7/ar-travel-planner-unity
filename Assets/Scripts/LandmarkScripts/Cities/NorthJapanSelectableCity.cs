@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class NorthJapanSelectableCity : SelectableCity {
@@ -12,11 +13,18 @@ public class NorthJapanSelectableCity : SelectableCity {
 
 	public override void OnSelect() {
 		base.OnSelect ();
-		uiInfoPanel.GetComponent<CanvasGroup>().alpha = 1.0f;
+		CanvasGroup cv = uiInfoPanel.GetComponent<CanvasGroup> ();
+		cv.alpha = 1.0f;
+		cv.interactable = true;
+
+		GameObject pt = uiInfoPanel.transform.FindChild ("PageTitle").transform.gameObject;
+		pt.GetComponent<Text> ().text = gameObject.name; 
 	}
 
 	public override void OnDeselect() {
 		base.OnDeselect ();
-		uiInfoPanel.GetComponent<CanvasGroup>().alpha = 0.0f;
+		CanvasGroup cv = uiInfoPanel.GetComponent<CanvasGroup> ();
+		cv.alpha = 0.0f;
+		cv.interactable = false;
 	}
 }

@@ -13,7 +13,7 @@ public class SelectableCity : SelectableLandmark {
 
 	// Use this for initialization
 	protected virtual void Start () {
-		transform.localScale = new Vector3(0.1f,0.1f,0.1f);
+		transform.localScale = new Vector3(deselectedScale,deselectedScale,deselectedScale);
 		time = Time.time * 1000;
 	}
 	

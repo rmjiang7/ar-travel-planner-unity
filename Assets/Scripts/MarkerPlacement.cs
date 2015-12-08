@@ -17,7 +17,7 @@ public class MarkerPlacement : MonoBehaviour
     public float Z = 0;
 	
 	public Mesh selectedMesh;
-	public Material selectedMeshMaterial;
+	public Material[] selectedMeshMaterials;
 
     // Use this for initialization
     void Start()
@@ -52,7 +52,7 @@ public class MarkerPlacement : MonoBehaviour
 
 	void ChangeMeshRenderer() {
 		GetComponent<MeshFilter> ().mesh = selectedMesh;
-		GetComponent<MeshRenderer> ().materials = new Material[]{selectedMeshMaterial};
+		GetComponent<MeshRenderer> ().materials = selectedMeshMaterials;
 	}
 
 }

@@ -29,11 +29,16 @@ public class ItineraryUpdate : MonoBehaviour {
 		itinerary.RemoveAt (idx);
 		entryLookupTable.Remove (key);
 		entryCount--;
+		for (int i = 0; i < entryCount; i++) {
+			itinerary[i].GetComponent<ItineraryEntryUpdate>().transform.position = baseItineraryEntry.transform.position + new Vector3(0,-maxTextBoxHeight*(i+1),0);
+		}
 	}
 
-	void Add (string[] entrykeypair) {
-		string entry = entrykeypair [0];
-		string key = entrykeypair [1];
+	void Add (string[] entrykeyvalues) {
+		string key = entrykeyvalues [0];
+		string date = entrykeyvalues [1];
+		string name = entrykeyvalues [2];
+		string additional = entrykeyvalues [3];
 
 		if (entryLookupTable.ContainsKey (key)) {
 			Debug.Log ("Entry does not exist");
@@ -48,8 +53,9 @@ public class ItineraryUpdate : MonoBehaviour {
 		itineraryEntry.transform.parent = transform;
 		itineraryEntry.transform.localScale = baseItineraryEntry.transform.localScale;
 
-		itineraryEntry.SendMessage ("UpdateName", entry);
-		itineraryEntry.SendMessage ("UpdateDate", "11/16");
+		itineraryEntry.SendMessage ("UpdateDate", date);
+		itineraryEntry.SendMessage ("UpdateName", name);
+		itineraryEntry.SendMessage ("UpdateAdditional", additional);
 		itinerary.Add (itineraryEntry);
 		entryLookupTable.Add (key, entryCount - 1);
 	}

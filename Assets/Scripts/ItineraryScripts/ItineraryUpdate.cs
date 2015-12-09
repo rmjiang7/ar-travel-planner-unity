@@ -73,8 +73,8 @@ public class ItineraryUpdate : MonoBehaviour {
 
         if (entryCount > 1)
         {
-            ArrowArcs_testing arrow =
-                gameObject.AddComponent<ArrowArcs_testing>();
+            ArrowArcs arrow =
+                gameObject.AddComponent<ArrowArcs>();
             arrow.X_start = landmarkPositions[entryCount - 2].x;
             arrow.Z_start = landmarkPositions[entryCount - 2].z;
             

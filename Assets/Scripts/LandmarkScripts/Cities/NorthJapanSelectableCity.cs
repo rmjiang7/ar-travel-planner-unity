@@ -38,6 +38,9 @@ public class NorthJapanSelectableCity : SelectableCity {
 
 	void UpdateInfo()
 	{
+		GameObject pt = uiInfoPanel.transform.FindChild ("InfoScroll").transform.gameObject;
+		string textspaced = "\n\n" + text;
+		pt.transform.Find ("Viewport").transform.Find ("Content").GetComponent<Text> ().text = textspaced;
 	}
 
 	public override void OnDeselect() {

@@ -28,8 +28,8 @@ public class ItineraryEntryUpdate : MonoBehaviour {
 
 	void UpdateAdditional(string entry) {
 		if (transform.Find ("ItineraryEntryColumnAdditional") != null) {
-			GameObject childDate = transform.Find ("ItineraryEntryColumnAdditional").gameObject;
-			childDate.SendMessage ("ForceUpdateDisplay", entry);
+			GameObject childAdditional = transform.Find ("ItineraryEntryColumnAdditional").gameObject;
+			childAdditional.SendMessage ("ForceUpdateDisplay", entry);
 		}
 	}
 

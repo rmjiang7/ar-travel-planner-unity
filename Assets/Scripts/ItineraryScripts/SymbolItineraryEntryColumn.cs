@@ -1,53 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SymbolItineraryEntryColumn : MonoBehaviour {
+public class SymbolItineraryEntryColumn : ItineraryEntryColumn {
 
 	private GameObject food;
 	private GameObject ss;
 	private GameObject stay;
 
 	// Use this for initialization
-	void Start () {
+	public virtual void Start () {
 		food = gameObject.transform.FindChild("Food").transform.gameObject;
 		ss = gameObject.transform.FindChild("Sightseeing").transform.gameObject;
 		stay = gameObject.transform.FindChild("Stay").transform.gameObject;
 
-		ChangeAlpha (food, 255.0f);
-		ChangeAlpha (ss, 255.0f);
-		ChangeAlpha (stay, 255.0f);
+		ChangeAlpha (food, 1.0f);
+		ChangeAlpha (ss, 1.0f);
+		ChangeAlpha (stay, 1.0f);
 	}
 
 	void ChangeAlpha(GameObject g, float val) {
 		Color f = g.GetComponent<SpriteRenderer>().color;
-		f.a = val;
-		g.GetComponent<SpriteRenderer> ().color = f;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+		Color n = new Color (f.r, f.g, f.b, val);
+		g.GetComponent<SpriteRenderer> ().color = n;
+		Debug.Log (g.GetComponent<SpriteRenderer> ().color);
 	}
 	
 	// Update the text on the itinerary entry
-	void ForceUpdateDisplay(string entry) {
-		/*
+	public override void ForceUpdateDisplay(string entry) {
 		string[] entries = entry.Split ('|');
 		foreach (string e in entries) {
 			if(e.Equals("food"))
 			{
-				ChangeAlpha(food,255.0f);
+				food = gameObject.transform.FindChild("Food").transform.gameObject;
+				ChangeAlpha(food,1.0f);
 			}
 
 			if(e.Equals("sightseeing"))
 			{
-				ChangeAlpha(ss,255.0f);
+				ss = gameObject.transform.FindChild("Sightseeing").transform.gameObject;
+				ChangeAlpha(ss,1.0f);
 			}
 
 			if(e.Equals("stay"))
 			{
-				ChangeAlpha(stay, 255.0f);
+				stay = gameObject.transform.FindChild("Stay").transform.gameObject;
+				ChangeAlpha(stay, 1.0f);
 			}
 		}
-		*/
 	}
 }

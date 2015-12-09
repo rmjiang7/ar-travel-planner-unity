@@ -39,7 +39,6 @@ public class ArrowArcs : MonoBehaviour
             float z = Z_start + k * z_int;
             float y = radius * Mathf.Sin(angle);
             cyl.transform.position = new Vector3(x, y, z);
-            //Debug.Log("rendered: (" + x + "," + z + ")");
 
             if (k < N - 5)
             {
@@ -50,7 +49,7 @@ public class ArrowArcs : MonoBehaviour
             }
             else  //make last five iters into the arrowhead
             {
-                float cyl_width = (float)(N - k) / 10 * 50;
+                float cyl_width = (float)(N - k) / 10 * 100;
                 if (solidLine == true)
                     cyl.transform.localScale = new Vector3(cyl_width, 5f, cyl_width);
                 else
@@ -62,42 +61,8 @@ public class ArrowArcs : MonoBehaviour
             float zRot = k * rot_int * (90 / Mathf.PI) * 2;
             cyl.transform.Rotate(0, 0, -zRot);
 
-            //enter this loop on (N-5)th step
-            /*            if (max >= N - 5)   //arrowhead
-                        {
-
-                            for (int j = k+1; j < N; j++)
-                            {
-
-
-                                x = j * x_int;
-                                z = j * z_int;
-                                angle = Mathf.PI - (j * rot_int);
-                                y = radius * Mathf.Sin(angle);
-                                zRot = j * rot_int * (90 / Mathf.PI) * 2;
-
-                                GameObject arrow = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-                                arrow.AddComponent<ArrowHeads>();
-
-
-                            }
-
-                        }
-            */
-
-            //delay(1);
             k++;
         }
 
-    }
-
-    IEnumerator delay(int sec)
-    {
-        Debug.Log("was here!!");
-        yield return new WaitForSeconds(sec);
-    }
-
-    void renderArc()
-    {
     }
 }

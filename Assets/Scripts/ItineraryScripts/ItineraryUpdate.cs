@@ -22,6 +22,7 @@ public class ItineraryUpdate : MonoBehaviour {
 		itinerary = new List<GameObject> ();
 		landmarkPositions = new List<Vector3> ();
 		entryLookupTable = new Dictionary<string, int> ();
+        arcs = new List<ArrowArcs>();
 		baseItineraryEntry = GameObject.Find ("ItineraryEntry");
 	}
 
@@ -42,28 +43,36 @@ public class ItineraryUpdate : MonoBehaviour {
 			List<string> keys = new List<string> (entryLookupTable.Keys);
 			foreach (string k in keys) {
 				if (entryLookupTable.ContainsKey (k) && entryLookupTable [k] > idx) {
-					entryLookupTable [k] = entryLookupTable [key] - 1;
+					entryLookupTable [k] = entryLookupTable [k] - 1;
 				}
 			}
 		}
 
-        for (int i = arcs.Count - 1; i >= 0; i--)
+        if (arcs.Count > 0)
         {
-            Debug.Log("deleting");
-            arcs[i].destroyArc();
+            for (int i = arcs.Count - 1; i >= 0; i--)
+            {
+                Debug.Log("deleting " + arcs.Count);
+                arcs[i].destroyArc();
+                arcs.RemoveAt(i);
+            }
         }
-        for (int i = 1; i < arcs.Count - 1; i++)
+        Debug.Log("done deleting, landmarks: " + landmarkPositions.Count);
+        if (landmarkPositions.Count >= 2)
         {
-            Debug.Log("rerendering");
-            ArrowArcs arrow =
-                 gameObject.AddComponent<ArrowArcs>();
-            arrow.X_start = landmarkPositions[i - 1].x;
-            arrow.Z_start = landmarkPositions[i - 1].z;
+            for (int i = 1; i < landmarkPositions.Count; i++)
+            {
+                Debug.Log("rerendering " + arcs.Count);
+                ArrowArcs arrow =
+                     gameObject.AddComponent<ArrowArcs>();
+                arrow.X_start = landmarkPositions[i - 1].x;
+                arrow.Z_start = landmarkPositions[i - 1].z;
 
-            arrow.X = landmarkPositions[i].x;
-            arrow.Z = landmarkPositions[i].z;
+                arrow.X = landmarkPositions[i].x;
+                arrow.Z = landmarkPositions[i].z;
 
-            arcs.Add(arrow);
+                arcs.Add(arrow);
+            }
         }
 
     }

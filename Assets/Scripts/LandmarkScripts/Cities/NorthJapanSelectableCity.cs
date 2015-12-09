@@ -5,6 +5,8 @@ using System.Collections;
 public class NorthJapanSelectableCity : SelectableCity {
 
 	public Texture2D landmarkSprite;
+	[TextArea(3,10)]
+	public string text;
 	
 	private GameObject uiInfoPanel;
 	// Update is called once per frame

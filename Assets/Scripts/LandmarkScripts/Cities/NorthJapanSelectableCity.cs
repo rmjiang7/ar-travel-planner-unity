@@ -5,6 +5,8 @@ using System.Collections;
 public class NorthJapanSelectableCity : SelectableCity {
 
 	public Texture2D landmarkSprite;
+	[TextArea(3,10)]
+	public string text;
 	
 	private GameObject uiInfoPanel;
 	// Update is called once per frame
@@ -38,6 +40,9 @@ public class NorthJapanSelectableCity : SelectableCity {
 
 	void UpdateInfo()
 	{
+		GameObject pt = uiInfoPanel.transform.FindChild ("InfoScroll").transform.gameObject;
+		string textspaced = "\n\n" + text;
+		pt.transform.Find ("Viewport").transform.Find ("Content").GetComponent<Text> ().text = textspaced;
 	}
 
 	public override void OnDeselect() {

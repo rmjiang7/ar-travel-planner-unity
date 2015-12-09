@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 [RequireComponent (typeof (SelectableLandmark))]
 public class AddToItineraryAction : MonoBehaviour {
@@ -9,6 +10,7 @@ public class AddToItineraryAction : MonoBehaviour {
 	public string additional = "";
 
 	private GameObject itinerary;
+	private GameObject uiInfoPanel;
 	private SelectableLandmark parentLandmark;
 
 	private Vector3 startPos;
@@ -34,11 +36,41 @@ public class AddToItineraryAction : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		itinerary = GameObject.Find ("ItineraryPlane");
-		parentLandmark = GetComponent<SelectableLandmark> ();;
+		parentLandmark = GetComponent<SelectableLandmark> ();
+		uiInfoPanel = GameObject.Find ("UIInfoPanel");
 	}
 
 	void AddToItinerary() {
 		if(!hasBeenAdded){
+
+			string additional = "";
+			bool hasAdditional = false;
+			GameObject food = uiInfoPanel.transform.FindChild ("Food").transform.gameObject;
+			if(food.GetComponent<Toggle>().isOn)
+			{
+				additional += "eating";
+				hasAdditional = true;
+			}
+
+			GameObject sightseeing = uiInfoPanel.transform.FindChild ("Sightseeing").transform.gameObject;
+			if(sightseeing.GetComponent<Toggle>().isOn)
+			{
+				if(hasAdditional) {
+					additional += "|";
+				}
+
+				additional += "sightseeing";
+			}
+
+			GameObject stay = uiInfoPanel.transform.FindChild ("Stay").transform.gameObject;
+			if(stay.GetComponent<Toggle>().isOn)
+			{
+				if(hasAdditional) {
+					additional += "|";
+				}
+				additional += "stay";
+			}
+
 			itinerary.GetComponent<ItineraryUpdate>().Add(new string[] {gameObject.name, date, name, additional}, gameObject.transform.position);
 			
 			MarkerPlacement gc = 

@@ -143,15 +143,5 @@ public class AddToItineraryAction : MonoBehaviour {
 				}
 			}
 		}
-
-		if (parentLandmark.selected()) {
-			if (Input.GetMouseButtonDown(0)) {
-				AddToItinerary();
-			}
-
-			if (Input.GetMouseButtonDown (1)) {
-				RemoveFromItinerary();
-			}
-		}
 	}
 }

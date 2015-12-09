@@ -8,10 +8,6 @@ public class TextItineraryEntryColumn : ItineraryEntryColumn {
 	void Start () {
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	}
-	
 	// Update the text on the itinerary entry
 	public override void ForceUpdateDisplay(string entry) {
 		GetComponent<TextMesh> ().text = entry;

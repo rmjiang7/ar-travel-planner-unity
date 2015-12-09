@@ -4,12 +4,12 @@ using System.Collections;
 public class ItineraryEntryColumn : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
+	public virtual void Start () {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 	}
 	
 	// Update the text on the itinerary entry

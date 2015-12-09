@@ -48,7 +48,7 @@ public class AddToItineraryAction : MonoBehaviour {
 			GameObject food = uiInfoPanel.transform.FindChild ("Food").transform.gameObject;
 			if(food.GetComponent<Toggle>().isOn)
 			{
-				additional += "eating";
+				additional += "food";
 				hasAdditional = true;
 			}
 

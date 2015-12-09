@@ -7,7 +7,8 @@ public class ItineraryUpdate : MonoBehaviour {
 	// array of plans
 	private IList<GameObject> itinerary;
 	private IList<Vector3> landmarkPositions;
-	private Dictionary<string, int> entryLookupTable; 
+	private Dictionary<string, int> entryLookupTable;
+    private IList<ArrowArcs> arcs;
 
 	// Base Itinerary Object to duplicate
 	private GameObject baseItineraryEntry;
@@ -32,17 +33,38 @@ public class ItineraryUpdate : MonoBehaviour {
 		landmarkPositions.RemoveAt (idx);
 		entryLookupTable.Remove (key);
 		entryCount--;
-		for (int i = 0; i < entryCount; i++) {
+
+        for (int i = 0; i < entryCount; i++) {
 			itinerary[i].GetComponent<ItineraryEntryUpdate>().transform.position = baseItineraryEntry.transform.position + new Vector3(0,-maxTextBoxHeight*(i+1),0);
 		}
-
+    
 		foreach(KeyValuePair<string, int> entry in entryLookupTable)
 		{
 			if(entry.Value > idx) {
 				entryLookupTable[entry.Key] = entry.Value-1;
 			}
 		}
-	}
+
+        for (int i = arcs.Count - 1; i >= 0; i--)
+        {
+            Debug.Log("deleting");
+            arcs[i].destroyArc();
+        }
+        for (int i = 1; i < arcs.Count - 1; i++)
+        {
+            Debug.Log("rerendering");
+            ArrowArcs arrow =
+                 gameObject.AddComponent<ArrowArcs>();
+            arrow.X_start = landmarkPositions[i - 1].x;
+            arrow.Z_start = landmarkPositions[i - 1].z;
+
+            arrow.X = landmarkPositions[i].x;
+            arrow.Z = landmarkPositions[i].z;
+
+            arcs.Add(arrow);
+        }
+
+    }
 
 	public void Add (string[] entrykeyvalues, Vector3 landmarkPosition) {
 		string key = entrykeyvalues [0];
@@ -80,6 +102,8 @@ public class ItineraryUpdate : MonoBehaviour {
             
             arrow.X = landmarkPositions[entryCount-1].x;
             arrow.Z = landmarkPositions[entryCount-1].z;
+
+            arcs.Add(arrow);
         }
     }
 

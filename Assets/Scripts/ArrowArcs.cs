@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ArrowArcs : MonoBehaviour
 {
+    private GameObject arcs;
+
     private GameObject cyl;
     public float X = 10;
     public float Z = 5;
@@ -18,6 +20,7 @@ public class ArrowArcs : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        arcs = new GameObject();
         max = N;
     }
 
@@ -33,6 +36,7 @@ public class ArrowArcs : MonoBehaviour
         if (k < max)
         {
             cyl = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            cyl.transform.parent = arcs.transform;
 
             float angle = Mathf.PI - (k * rot_int);
             float x = X_start + k * x_int;
@@ -64,5 +68,10 @@ public class ArrowArcs : MonoBehaviour
             k++;
         }
 
+    }
+
+    public void destroyArc()
+    {
+        Destroy(arcs);
     }
 }

@@ -15,6 +15,7 @@ public class AddToItineraryAction : MonoBehaviour {
 
 	private Vector3 startPos;
 	private float minSwipeDistY = 400.0f;
+	private System.Object lockThis = new System.Object ();
 
 	public Mesh oldSelectedMesh = null;
 	public Material[] oldSelectedMeshMaterials = null;
@@ -41,77 +42,77 @@ public class AddToItineraryAction : MonoBehaviour {
 	}
 
 	void AddToItinerary() {
-		if(!hasBeenAdded){
-
-			string additional = "";
-			bool hasAdditional = false;
-			GameObject food = uiInfoPanel.transform.FindChild ("Food").transform.gameObject;
-			if(food.GetComponent<Toggle>().isOn)
-			{
-				additional += "food";
-				hasAdditional = true;
-			}
-
-			GameObject sightseeing = uiInfoPanel.transform.FindChild ("Sightseeing").transform.gameObject;
-			if(sightseeing.GetComponent<Toggle>().isOn)
-			{
-				if(hasAdditional) {
-					additional += "|";
+		lock (lockThis) {
+			if (!hasBeenAdded) {
+				string additional = "";
+				bool hasAdditional = false;
+				GameObject food = uiInfoPanel.transform.FindChild ("Food").transform.gameObject;
+				if (food.GetComponent<Toggle> ().isOn) {
+					additional += "food";
+					hasAdditional = true;
 				}
 
-				additional += "sightseeing";
-			}
+				GameObject sightseeing = uiInfoPanel.transform.FindChild ("Sightseeing").transform.gameObject;
+				if (sightseeing.GetComponent<Toggle> ().isOn) {
+					if (hasAdditional) {
+						additional += "|";
+					}
 
-			GameObject stay = uiInfoPanel.transform.FindChild ("Stay").transform.gameObject;
-			if(stay.GetComponent<Toggle>().isOn)
-			{
-				if(hasAdditional) {
-					additional += "|";
+					additional += "sightseeing";
 				}
-				additional += "stay";
+
+				GameObject stay = uiInfoPanel.transform.FindChild ("Stay").transform.gameObject;
+				if (stay.GetComponent<Toggle> ().isOn) {
+					if (hasAdditional) {
+						additional += "|";
+					}
+					additional += "stay";
+				}
+
+				itinerary.GetComponent<ItineraryUpdate> ().Add (new string[] {gameObject.name, date, name, additional}, gameObject.transform.position);
+			
+				MarkerPlacement gc = 
+				(MarkerPlacement)gameObject.AddComponent<MarkerPlacement> ();
+				gc.X = transform.position.x;
+				gc.Z = transform.position.z;
+			
+				gc.selectedMesh = addedMesh;
+				gc.selectedMeshMaterials = addedMeshMaterials;
+				
+				parentLandmark.selectedMesh = addedMesh;
+				parentLandmark.selectedMeshMaterials = addedMeshMaterials;
+				parentLandmark.deselectedMesh = addedMesh;
+				parentLandmark.deselectedMeshMaterials = addedMeshMaterials;
+
+				tempScaleSelected = parentLandmark.selectedScale;
+				tempScaleDeselected = parentLandmark.deselectedScale;
+
+				parentLandmark.selectedScale = addedScaleSelected;
+				parentLandmark.deselectedScale = addedScaleDeselected;
+			
+				hasBeenAdded = true;
 			}
-
-			itinerary.GetComponent<ItineraryUpdate>().Add(new string[] {gameObject.name, date, name, additional}, gameObject.transform.position);
-			
-			MarkerPlacement gc = 
-				(MarkerPlacement) gameObject.AddComponent<MarkerPlacement>();
-			gc.X = transform.position.x;
-			gc.Z = transform.position.z;
-			
-			gc.selectedMesh = addedMesh;
-			gc.selectedMeshMaterials = addedMeshMaterials;
-			
-			parentLandmark.selectedMesh = addedMesh;
-			parentLandmark.selectedMeshMaterials = addedMeshMaterials;
-			parentLandmark.deselectedMesh = addedMesh;
-			parentLandmark.deselectedMeshMaterials = addedMeshMaterials;
-
-			tempScaleSelected = parentLandmark.selectedScale;
-			tempScaleDeselected = parentLandmark.deselectedScale;
-
-			parentLandmark.selectedScale = addedScaleSelected;
-			parentLandmark.deselectedScale = addedScaleDeselected;
-			
-			hasBeenAdded = true;
 		}
 	}
 
 	void RemoveFromItinerary() {
-		if(hasBeenAdded) {
-			itinerary.SendMessage ("Remove", gameObject.name);
-			
-			Destroy (GetComponent<MarkerPlacement>());
-			
-			parentLandmark.selectedMesh = oldSelectedMesh;
-			parentLandmark.selectedMeshMaterials = oldSelectedMeshMaterials;
-			parentLandmark.deselectedMesh = oldSelectedMesh;
-			parentLandmark.deselectedMeshMaterials = oldSelectedMeshMaterials;
-			parentLandmark.ForceDisplayUpdate();
-			
-			hasBeenAdded = false;
+		lock (lockThis) {
+			if (hasBeenAdded) {
+				itinerary.SendMessage ("Remove", gameObject.name);
+				
+				Destroy (GetComponent<MarkerPlacement> ());
+				
+				parentLandmark.selectedMesh = oldSelectedMesh;
+				parentLandmark.selectedMeshMaterials = oldSelectedMeshMaterials;
+				parentLandmark.deselectedMesh = oldSelectedMesh;
+				parentLandmark.deselectedMeshMaterials = oldSelectedMeshMaterials;
+				parentLandmark.ForceDisplayUpdate ();
+				
+				hasBeenAdded = false;
 
-			parentLandmark.selectedScale = tempScaleSelected;
-			parentLandmark.deselectedScale = tempScaleDeselected;
+				parentLandmark.selectedScale = tempScaleSelected;
+				parentLandmark.deselectedScale = tempScaleDeselected;
+			}
 		}
 	}
 	

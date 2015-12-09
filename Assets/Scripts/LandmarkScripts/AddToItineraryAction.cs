@@ -23,8 +23,13 @@ public class AddToItineraryAction : MonoBehaviour {
 	public Mesh addedMesh = null;
 	public Material[] addedMeshMaterials = null;
 
-
 	private bool hasBeenAdded = false;
+
+	public Vector3 addedScaleSelected = new Vector3(1f,1f,1f);
+	public Vector3 addedScaleDeselected = new Vector3(1f,1f,1f);
+
+	private Vector3 tempScaleSelected;
+	private Vector3 tempScaleDeselected;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +39,7 @@ public class AddToItineraryAction : MonoBehaviour {
 
 	void AddToItinerary() {
 		if(!hasBeenAdded){
-			itinerary.SendMessage ("Add", new string[] {gameObject.name, date, name, additional});
+			itinerary.GetComponent<ItineraryUpdate>().Add(new string[] {gameObject.name, date, name, additional}, gameObject.transform.position);
 			
 			MarkerPlacement gc = 
 				(MarkerPlacement) gameObject.AddComponent<MarkerPlacement>();
@@ -48,6 +53,12 @@ public class AddToItineraryAction : MonoBehaviour {
 			parentLandmark.selectedMeshMaterials = addedMeshMaterials;
 			parentLandmark.deselectedMesh = addedMesh;
 			parentLandmark.deselectedMeshMaterials = addedMeshMaterials;
+
+			tempScaleSelected = parentLandmark.selectedScale;
+			tempScaleDeselected = parentLandmark.deselectedScale;
+
+			parentLandmark.selectedScale = addedScaleSelected;
+			parentLandmark.deselectedScale = addedScaleDeselected;
 			
 			hasBeenAdded = true;
 		}
@@ -66,6 +77,9 @@ public class AddToItineraryAction : MonoBehaviour {
 			parentLandmark.ForceDisplayUpdate();
 			
 			hasBeenAdded = false;
+
+			parentLandmark.selectedScale = tempScaleSelected;
+			parentLandmark.deselectedScale = tempScaleDeselected;
 		}
 	}
 	

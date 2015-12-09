@@ -11,12 +11,12 @@ public class SelectableLandmark : MonoBehaviour {
 	public Mesh selectedMesh;
 	public Material[] selectedMeshMaterials;
 
-	public float selectedScale = 0.5f;
-	public float deselectedScale = 0.1f;
+	public Vector3 selectedScale = new Vector3(1f,1f,1f);
+	public Vector3 deselectedScale = new Vector3(1f,1f,1f);
 
 	// Use this for initialization
 	void Start () {
-		transform.localScale = new Vector3(deselectedScale,deselectedScale,deselectedScale);
+		transform.localScale = deselectedScale;
 	}
 	
 	// Update is called once per frame
@@ -26,13 +26,13 @@ public class SelectableLandmark : MonoBehaviour {
 	public virtual void OnSelect() {
 		GetComponent<MeshFilter> ().mesh = deselectedMesh;
 		GetComponent<MeshRenderer> ().materials = deselectedMeshMaterials;
-		transform.localScale = new Vector3(selectedScale,selectedScale,selectedScale);
+		transform.localScale = selectedScale;
 	}
 
 	public virtual void OnDeselect() {
 		GetComponent<MeshFilter> ().mesh = selectedMesh;
 		GetComponent<MeshRenderer> ().materials = selectedMeshMaterials;
-		transform.localScale = new Vector3(deselectedScale,deselectedScale,deselectedScale);
+		transform.localScale = deselectedScale;
 	}
 
 	void ToggleSelect() {

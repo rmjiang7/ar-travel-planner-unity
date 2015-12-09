@@ -6,6 +6,7 @@ public class ItineraryUpdate : MonoBehaviour {
 
 	// array of plans
 	private IList<GameObject> itinerary;
+	private IList<Vector3> landmarkPositions;
 	private Dictionary<string, int> entryLookupTable; 
 
 	// Base Itinerary Object to duplicate
@@ -17,6 +18,7 @@ public class ItineraryUpdate : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		itinerary = new List<GameObject> ();
+		landmarkPositions = new List<Vector3> ();
 		entryLookupTable = new Dictionary<string, int> ();
 		baseItineraryEntry = GameObject.Find ("ItineraryEntry");
 	}
@@ -27,14 +29,22 @@ public class ItineraryUpdate : MonoBehaviour {
 		int idx = entryLookupTable [key];
 		Destroy(itinerary[idx]);
 		itinerary.RemoveAt (idx);
+		landmarkPositions.RemoveAt (idx);
 		entryLookupTable.Remove (key);
 		entryCount--;
 		for (int i = 0; i < entryCount; i++) {
 			itinerary[i].GetComponent<ItineraryEntryUpdate>().transform.position = baseItineraryEntry.transform.position + new Vector3(0,-maxTextBoxHeight*(i+1),0);
 		}
+
+		foreach(KeyValuePair<string, int> entry in entryLookupTable)
+		{
+			if(entry.Value > idx) {
+				entryLookupTable[entry.Key] = entry.Value-1;
+			}
+		}
 	}
 
-	void Add (string[] entrykeyvalues) {
+	public void Add (string[] entrykeyvalues, Vector3 landmarkPosition) {
 		string key = entrykeyvalues [0];
 		string date = entrykeyvalues [1];
 		string name = entrykeyvalues [2];
@@ -57,6 +67,7 @@ public class ItineraryUpdate : MonoBehaviour {
 		itineraryEntry.SendMessage ("UpdateName", name);
 		itineraryEntry.SendMessage ("UpdateAdditional", additional);
 		itinerary.Add (itineraryEntry);
+		landmarkPositions.Add (landmarkPosition);
 		entryLookupTable.Add (key, entryCount - 1);
 	}
 

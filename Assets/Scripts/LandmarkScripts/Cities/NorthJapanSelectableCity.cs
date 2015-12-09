@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class NorthJapanSelectableCity : SelectableCity {
+
+	public Texture2D landmarkSprite;
 	
 	private GameObject uiInfoPanel;
 	// Update is called once per frame
@@ -17,8 +19,25 @@ public class NorthJapanSelectableCity : SelectableCity {
 		cv.alpha = 1.0f;
 		cv.interactable = true;
 
+		UpdateImage ();
+		UpdateText ();
+		UpdateInfo ();
+	}
+
+	void UpdateImage() 
+	{
+		GameObject pt = uiInfoPanel.transform.FindChild ("LandmarkImage").transform.gameObject;
+		pt.GetComponent<RawImage> ().texture = landmarkSprite;
+	}
+
+	void UpdateText() 
+	{
 		GameObject pt = uiInfoPanel.transform.FindChild ("PageTitle").transform.gameObject;
 		pt.GetComponent<Text> ().text = gameObject.name; 
+	}
+
+	void UpdateInfo()
+	{
 	}
 
 	public override void OnDeselect() {

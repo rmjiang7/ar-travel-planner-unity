@@ -8,7 +8,7 @@ public class ArrowArcs : MonoBehaviour
     public float Z = 5;
     public float X_start = 0;
     public float Z_start = 0;
-    public bool solidLine = false;
+    public bool solidLine = true;
 
     private int N = 101;
     private int max = 0;

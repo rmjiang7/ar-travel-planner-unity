@@ -69,7 +69,19 @@ public class ItineraryUpdate : MonoBehaviour {
 		itinerary.Add (itineraryEntry);
 		landmarkPositions.Add (landmarkPosition);
 		entryLookupTable.Add (key, entryCount - 1);
-	}
+
+
+        if (entryCount > 1)
+        {
+            ArrowArcs_testing arrow =
+                gameObject.AddComponent<ArrowArcs_testing>();
+            arrow.X_start = landmarkPositions[entryCount - 2].x;
+            arrow.Z_start = landmarkPositions[entryCount - 2].z;
+            
+            arrow.X = landmarkPositions[entryCount-1].x;
+            arrow.Z = landmarkPositions[entryCount-1].z;
+        }
+    }
 
 	// Update is called once per frame
 	void Update () {
